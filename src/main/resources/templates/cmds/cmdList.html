@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>명령어</th>
+                <th>source</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cmd : ${cmds}">
+                <td th:text="${cmd.id}"></td>
+                <td th:text="${cmd.name}"></td>
+                <td><a th:href="@{/cmd/commands(id=${cmd.id})}" th:text="${cmd.source}"></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments/footer :: footer" />
+
+</div> <!-- /container -->
+
+
+<!--<div th:each="row : ${rows}" th:attr="id=${'editModal' + row.id}">
+    <div class="modal-body">
+        <div class="modal-body">
+            You are about to delete: <div th:text="test"/> <div th:text="test"/>
+
+            <form action="#" th:action="@{/cmds/command/{id}" th:object="${row}" method="delete">
+                <input type="text" hidden="true" th:field="${row.id}">
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" th:href="@{/delete/{id}(id=${row.id})}" th:method="delete">Remove</button>
+        </div>
+    </div>
+</div>-->
+
+</body>
+</html>

@@ -1,7 +1,8 @@
-# presideStudy_jpashop
-- 사이드 프로젝트를 위한 사전 스터디 ( 간단한 jpa 활용, 기본 어드민 웹 어플리케이션 )
+# process monitor
+- 커맨드 저장, 목록보기, sh실행 기능에 따른 초기 기능
 
 #구성
+- bootstrap
 - Spring Boot, jdk 11
 - thymleaf
 - jpa, jpql
