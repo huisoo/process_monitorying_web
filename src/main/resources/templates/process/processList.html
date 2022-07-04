@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<style>
+    .new-line {
+        white-space: pre-line;
+    }
+    .modal-body{
+        height: 80vh;
+        overflow-y: auto;
+    }
+</style>
+
+<script>
+    $( document ).ready(function() {
+
+        $('#processTable tbody').on('click', 'button.start-button', function () {
+            var $row = $(this).closest("tr"),        // Finds the closest row <tr>
+                $tds = $row.find("td:nth-child(1)"); // Finds the 2nd <td> element
+            var processSeq = $tds.text().trim();
+            console.log(processSeq);
+        $.ajax({
+            url:'/process/task-start',
+            contentType: 'application/json',
+            type:'POST',
+            data: JSON.stringify({
+                "processSeq" : processSeq
+            }),
+            dataType:'text', // 리턴해주는 타입을 지정해줘야함
+            beforeSend:function(jqXHR) {
+                console.log("ajax호출전");
+            },// 서버 요청 전 호출 되는 함수 return false; 일 경우 요청 중단
+            success: function(data) {
+                console.log("호출성공 " + data);
+            },// 요청 완료 시
+            error:function(jqXHR) {
+                console.log("실패입니다.");
+            }// 요청 실패.
+        });
+
+
+        });
+
+        $('#processTable tbody').on('click', 'button.kill-button', function () {
+            var $row = $(this).closest("tr"),        // Finds the closest row <tr>
+                $tds = $row.find("td:nth-child(1)"); // Finds the 2nd <td> element
+            var processSeq = $tds.text().trim();
+            console.log(processSeq);
+            $.ajax({
+                url:'/process/task-kill',
+                contentType: 'application/json',
+                type:'POST',
+                data: JSON.stringify({
+                    "processSeq" : processSeq
+                }),
+                dataType:'text', // 리턴해주는 타입을 지정해줘야함
+                beforeSend:function(jqXHR) {
+                    console.log("ajax호출전");
+                },// 서버 요청 전 호출 되는 함수 return false; 일 경우 요청 중단
+                success: function(data) {
+                    console.log("호출성공 " + data);
+                },// 요청 완료 시
+                error:function(jqXHR) {
+                    console.log("실패입니다.");
+                }// 요청 실패.
+            });
+
+
+        });
+
+
+
+        $('#processTable tbody').on('click', 'button.log-button', function () {
+            var $row = $(this).closest("tr"),        // Finds the closest row <tr>
+                $tds = $row.find("td:nth-child(1)"); // Finds the 2nd <td> element
+            var processSeq = $tds.text().trim();
+            console.log(processSeq);
+            $.ajax({
+                url:'/process/task-log',
+                contentType: 'application/json',
+                type:'POST',
+                data: JSON.stringify({
+                    "processSeq" : processSeq
+                }),
+                dataType:'json', // 리턴해주는 타입을 지정해줘야함
+                beforeSend:function(jqXHR) {
+                    console.log("ajax호출전");
+                },// 서버 요청 전 호출 되는 함수 return false; 일 경우 요청 중단
+                success: function(data) {
+                    $("#modalText").text(data["log"]);
+                    console.log("호출성공 " + data);
+                },// 요청 완료 시
+                error:function(jqXHR) {
+                    console.log("실패입니다.");
+                }// 요청 실패.
+            });
+
+
+        });
+
+    });
+
+</script>
+<div class="container" style="max-width: 1230px;">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div>
+        <table id="processTable" class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>프로세스명</th>
+                <th>서버명</th>
+                <th>위치</th>
+                <th>Start</th>
+                <th>Break</th>
+                <th>Log</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="process : ${process}">
+                <td th:text="${process.seq}"></td>
+                <td th:text="${process.name}"></td>
+                <td th:text="${process.serverName}"></td>
+                <td th:text="${process.location}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary active start-button">Start</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary active kill-button">Break</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary active log-button" data-toggle="modal" data-target="#myModal">Log</button>
+                </td>
+               <!-- <td><a th:href="@{/cmd/commands(id=${cmd.id})}" th:text="${cmd.source}"></a></td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments/footer :: footer" />
+
+    <div class="container">
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">System Log</h4>
+                    </div>
+                    <div class="modal-body new-line" id="modalText">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div> <!-- /container -->
+
+
+
+</body>
+</html>
