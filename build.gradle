@@ -6,7 +6,7 @@ plugins {
 
 group = 'ssh_call'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '8'
 
 configurations {
 	compileOnly {
@@ -15,7 +15,8 @@ configurations {
 }
 
 repositories {
-	mavenCentral()
+    //mavenCentral()
+    maven { url "http://10.248.140.19:8081/nexus/content/groups/public/" }
 }
 
 dependencies {
@@ -25,6 +26,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-devtools'
+    implementation 'com.sap.db:ngdbc:1.0'
+    compile('mysql:mysql-connector-java')
 	implementation group: 'com.jcraft', name: 'jsch', version: '0.1.55'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
