@@ -8,6 +8,13 @@ group = 'ssh_call'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
 
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'ssh_call.call.LdrApplication.SshCallApplication'
+    }
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -20,6 +27,7 @@ repositories {
 }
 
 dependencies {
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.1.1'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

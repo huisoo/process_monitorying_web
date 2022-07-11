@@ -112,6 +112,7 @@
                 <th>프로세스명</th>
                 <th>서버명</th>
                 <th>위치</th>
+                <th>상태</th>
                 <th>Start</th>
                 <th>Break</th>
                 <th>Log</th>
@@ -123,6 +124,7 @@
                 <td th:text="${process.name}"></td>
                 <td th:text="${process.serverName}"></td>
                 <td th:text="${process.location}"></td>
+                <td th:text="${process.status}"></td>
                 <td>
                     <button type="button" class="btn btn-primary active start-button">Start</button>
                 </td>
@@ -143,8 +145,8 @@
                                 </div>
 
                                 <!-- Modal body -->
-                                <div class="modal-body">
-                                    Modal body..
+                                <div class="modal-body new-line" id = "modalText">
+
                                 </div>
 
                                 <!-- Modal footer -->

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ssh_call.call.domain.Process;
+import ssh_call.call.dto.ProcessDto;
 import ssh_call.call.service.ProcessService;
 
 import javax.validation.Valid;
@@ -45,8 +46,9 @@ public class ProcessController {
 
     @GetMapping("/process")
     public String list(Model model){
-        List<Process> psList = processService.findProcessList();
-        model.addAttribute("process", psList);
+        List<ProcessDto> psList = processService.findProcessList();
+        List<ProcessDto> psAliveList = processService.findAliveProcess(psList);
+        model.addAttribute("process", psAliveList);
         return "process/processList";
     }
 
