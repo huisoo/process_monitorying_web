@@ -1,29 +1,17 @@
 package ssh_call.call.service;
 
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ssh_call.call.domain.Cmds;
 import ssh_call.call.domain.Process;
 import ssh_call.call.dto.ProcessDto;
-import ssh_call.call.repository.CmdsRepository;
 import ssh_call.call.repository.ProcessRepository;
-import ssh_call.call.utils.SSHUtils;
 import ssh_call.call.utils.ShRunner;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 @Service
@@ -117,9 +105,17 @@ public class ProcessService {
         ShRunner shRunner = new ShRunner();
         String[] callCmd = {"/bin/sh", "-c", cmd};
         Map map = shRunner.execCommand(callCmd);
+
         if(map.get("log").toString().contains("/app/build/")){
             ps.setStatus("OK");
         }else{
+            ps.setStatus("NO");
+            return;
+        }
+
+        String[] tailCallCmd = {"tail","-n","100",cmd};
+        Map tailMap = shRunner.execCommand(tailCallCmd);
+        if(tailMap.get("log").toString().contains("Exception")){
             ps.setStatus("NO");
         }
 
